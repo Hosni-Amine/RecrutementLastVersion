@@ -1,0 +1,200 @@
+<div class="row text-center">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Previous
+        </div>
+        <div
+          class="btn btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Today
+        </div>
+        <div
+          class="btn btn-primary"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Next
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month"
+        >
+          Month
+        </div>
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week"
+        >
+          Week
+        </div>
+        <div
+          class="btn btn-primary"
+          (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day"
+        >
+          Day
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-day-view>
+  </div>
+  
+<ng-template #modalContent let-close="close">
+    <div class="modal-header">
+        <h5 class="modal-title">Interview details</h5>
+        <button type="button" class="close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="selectedEvent"></div>
+        <h6>Meeting Link:</h6>
+        <a [href]="selectedEvent?.title">{{selectedEvent?.title}}</a>
+        <h6>Recruteur information:</h6>
+        <p *ngIf="recruteurInfo">
+            Name: {{recruteurInfo.nom}} {{recruteurInfo.prenom}}<br>
+            Email: {{recruteurInfo.email}}
+        </p>
+        <h6>Candidate information:</h6>
+        <p *ngIf="candidateUserInfo">
+            Name: {{candidateUserInfo.nom}} {{candidateUserInfo.prenom}}<br>
+            Email: {{candidateUserInfo.email}}
+        </p>
+        <div class="profile-info">
+            <h4>Profile Information</h4>
+            <p><strong>Profile Details:</strong> eeeee</p> <!-- Replace with actual details -->
+        </div>
+        <div class="profile-info">
+            <h4>Resumer parser</h4>
+            <p><strong>Degree:</strong> University , Bac, </p> <!-- Replace with actual details -->
+        </div>
+        <div class="job-matching-score">
+          <h4>Job Matching Score</h4>
+          <div class="score-circles">
+              <div *ngFor="let score of jobMatchingScores" class="circle" [ngClass]="getTotalPercentageClass(score.value)">
+                  <div [ngClass]="getCircleClass(score.value)">
+                      <span class="percentage">{{score.value}}%</span>
+                      <div class="slice">
+                          <div class="bar"></div>
+                          <div class="fill"></div>
+                      </div>
+                  </div>
+                  <p>{{score.label}}</p>
+              </div>
+          </div>
+          <div class="total-percentage">
+              <div class="circle" [ngClass]="getTotalPercentageClass(totalPercentage)">
+                  <div [ngClass]="getCircleClass(totalPercentage)">
+                      <div class="slice">
+                          <div class="bar"></div>
+                          <div class="fill"></div>
+                      </div>
+                      <span class="percentage">{{totalPercentage}}%</span>
+                  </div>
+                  <p>Total Percentage</p>
+              </div>
+          </div>
+      </div>
+        <button class="btn btn-primary" (click)="openEditInterviewModal()">Edit Interview</button>
+        <button class="btn btn-danger" (click)="deleteInterview()">Delete Interview</button>
+    </div>
+
+
+</ng-template>
+
+<ng-template #editInterviewModal let-modal>
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editInterviewModalLabel">Edit Interview</h5>
+              <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="editInterviewForm" (ngSubmit)="onSubmitInterview()">
+                  <div class="mb-3">
+                      <label for="dateMeet" class="form-label">Date Meet</label>
+                      <input type="datetime-local" id="dateMeet" formControlName="dateMeet" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                      <label for="lienMeet" class="form-label">Meeting Link</label>
+                      <input type="text" id="lienMeet" formControlName="lienMeet" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                      <label for="commentaire" class="form-label">Comment</label>
+                      <input type="text" id="commentaire" formControlName="commentaire" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="score" class="form-label">Score</label>
+                    <input type="number" id="score" formControlName="score" class="form-control">
+                </div>
+                  <div class="mb-3">
+                      <label for="recruteurId" class="form-label">Select Recruiter</label>
+                      <select id="recruteurId" formControlName="recruteurId" class="form-control">
+                          <option *ngFor="let rec of recruteur" [value]="rec.id">{{rec.nom}} {{rec.nom}}</option>
+                      </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Edit interview</button>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+          </div>
+
+      </div>
+
+  </div>
+
+</ng-template>
+  <br /><br /><br />
+  

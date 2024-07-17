@@ -1,0 +1,23 @@
+<div class="test-form-container">
+    <form class="test-form" [formGroup]="testForm" (ngSubmit)="onSubmit()">
+        <h2>Modifier Test</h2>
+        <div class="form-group">
+            <label for="type">Type:</label>
+            <select id="type" name="type" formControlName="type" class="form-control">
+                <option *ngFor="let type of testTypes" [value]="type">{{ type }}</option>
+            </select>
+            <div *ngIf="testForm.get('type')?.touched && testForm.get('type')?.invalid">
+                <small class="text-danger">Type doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="technologie">Technologie:</label>
+            <input type="text" id="technologie" name="technologie" formControlName="technologie">
+            <div *ngIf="testForm.get('technologie')?.touched && testForm.get('technologie')?.invalid">
+                <small class="text-danger">Technologie doit être non vide</small>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Modifier Test</button>
+    </form>
+</div>

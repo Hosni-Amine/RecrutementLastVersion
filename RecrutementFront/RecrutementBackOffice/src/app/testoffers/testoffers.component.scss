@@ -1,0 +1,39 @@
+.table-responsive {
+    padding-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .btn-add-test {
+    background-color: #8c00ff; // Bleu foncé
+    color: #ffffff; // Texte en blanc
+    border: none;
+  }
+  
+  .btn-add-test:hover {
+    background-color: #003366; // Bleu foncé plus foncé au survol
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+  }
+  
+  .btn-primary:hover,
+  .btn-danger:hover {
+    filter: brightness(90%);
+  }
+  .correct-answer{
+    color: green;
+    font-weight: bold;
+  }

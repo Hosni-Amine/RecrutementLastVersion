@@ -1,0 +1,166 @@
+<app-navbar></app-navbar>
+
+<!-- Page Banner -->
+<div class="page-banner-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-12">
+                <h1>
+                    There are 58,612 jobs for you
+                </h1>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <ul class="ps-0 mb-0 list-unstyled">
+                    <li class="d-inline-block position-relative">
+                        <a routerLink="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="d-inline-block position-relative">
+                        Jobs Grid
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Page Banner -->
+
+<!-- Jobs -->
+<div class="jobs-area ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <form class="jobs-search-form">
+                    <div class="row mx-0 align-items-center">
+                        <div class="col-4 px-0">
+                            <div class="form-group position-relative">
+                                <i class="ri-search-line"></i>
+                                <input [(ngModel)]="searchKeyword" name="searchKeyword" type="text" class="form-control" placeholder="Job title, key words or company">
+                            </div>
+                        </div>
+                        <div class="col-4 px-0">
+                            <div class="form-group position-relative">
+                                <i class="ri-map-pin-line"></i>
+                                <select class="form-select">
+                                    <option selected>All Location</option>
+                                    <option value="1">Tokyo, Japan</option>
+                                    <option value="2">New York, USA</option>
+                                    <option value="3">London, England</option>
+                                    <option value="4">Beijing, China</option>
+                                    <option value="5">Toronto, Canada</option>
+                                    <option value="6">Chicago, USA</option>
+                                    <option value="7">Hong Kong, China</option>
+                                    <option value="8">Los Angeles, USA</option>
+                                    <option value="9">São Paulo, Brazil</option>
+                                    <option value="10">Seoul, South Korea</option>
+                                    <option value="11">Barcelona, Spain</option>
+                                    <option value="12">Istanbul, Turkey</option>
+                                    <option value="13">Osaka, Japan</option>
+                                    <option value="14">Copenhagen, Denmark</option>
+                                    <option value="15">Madrid, Spain</option>
+                                    <option value="16">Bangkok, Thailand</option>
+                                    <option value="17">Dubai, UAE</option>
+                                    <option value="18">Melbourne, Australia</option>
+                                    <option value="19">Amsterdam, Netherlands</option>
+                                    <option value="20">Paris, France</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4 px-0">
+                            <button type="submit" class="default-btn" (click)="searchOffers()">
+                                Search Jobs
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="jove-grid-sorting row align-items-center">
+                    <div class="col-lg-6 col-md-6 result-count">
+                        <p>
+                            Showing <span class="count">1 – 10</span> of 58,612 results
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ordering">
+                        <div class="select-box">
+                            <label>Sort By:</label>
+                            <select class="form-select">
+                                <option selected="">Default</option>
+                                <option value="1">Popularity</option>
+                                <option value="2">Latest</option>
+                                <option value="3">Price: low to high</option>
+                                <option value="4">Price: high to low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-6" *ngFor="let offer of filteredOffers">
+                        <div class="job-item text-center overflow-hidden position-relative">
+                            <div class="content">
+                                <div class="category-name position-absolute top-0 end-0 p-2 bg-light">
+                                    {{offer.categorieName}}
+                                </div>
+                                <div class="company-logo">
+                                    <img [src]="getImageUrl(offer.image)" alt="company-image">
+                                </div>
+                                <h3 class="fw-semibold">
+                                    <a routerLink="/job-details/{{offer.id}}">
+                                        {{offer.titre}}
+                                    </a>
+                                </h3>
+                                <span class="location d-block">
+                                    {{offer.localisation}}
+                                </span>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span class="job-type d-block">
+                                        {{offer.typeEmploi}}
+                                    </span>
+                                    <span class="deadline d-block">
+                                        <span class="fw-medium">Deadline:</span>
+                                        {{offer.dateLimite | date:'MMM dd, yyyy'}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="info d-flex align-items-center justify-content-between">
+                                <span class="salary d-block">
+                                    <span class="fw-semibold">Experience:</span>
+                                    <span>{{offer.niveauExperience}}</span>
+                                   
+                                </span>
+                                <span class="deadline d-block">
+                                    <a routerLink="/job-details/{{offer.id}}" class="link-btn d-inline-block position-relative">
+                                        Apply Now <i class="ri-arrow-right-line"></i>
+                                    </a>
+                                </span>
+                            </div>
+                            <button type="button" class="fav">
+                                <i class="ri-heart-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="pagination-area">
+                    <a routerLink="/jobs-grid" class="next page-numbers">
+                        <i class="ri-arrow-left-line"></i>
+                    </a>
+                    <span class="page-numbers current" aria-current="page">1</span>
+                    <a routerLink="/jobs-grid" class="page-numbers">2</a>
+                    <a routerLink="/jobs-grid" class="page-numbers">3</a>
+                    <a routerLink="/jobs-grid" class="next page-numbers">
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <app-jobs-sidebar></app-jobs-sidebar>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-subscribe></app-subscribe>
+
+<app-footer></app-footer>
+
+<ngx-scrolltop></ngx-scrolltop>

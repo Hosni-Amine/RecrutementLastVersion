@@ -1,0 +1,97 @@
+.container {
+  padding-top: 20px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 150px; /* Reduire la largeur de la barre de recherche */
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-container {
+  overflow: hidden;
+  height: 200px; /* Taille fixe pour toutes les images */
+}
+
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* S'assurer que les images remplissent complètement leur conteneur */
+}
+
+.card-body {
+  padding: 20px;
+  height: 100%; /* Permettre à la card-body de remplir l'espace restant */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  margin-bottom: auto; /* Faire en sorte que le texte supplémentaire soit poussé vers le haut */
+}
+
+.offer-details {
+  margin-top: auto; /* Faire en sorte que les détails supplémentaires soient poussés vers le bas */
+}
+
+.card-footer {
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.btn-add-offer {
+  background-color: #8c00ff; // Bleu foncé
+  color: #ffffff; // Texte en blanc
+  border: none;
+}
+
+.btn-add-offer:hover {
+  background-color: #003366; // Bleu foncé plus foncé au survol
+}
+
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover, .btn-danger:hover {
+  filter: brightness(90%);
+}

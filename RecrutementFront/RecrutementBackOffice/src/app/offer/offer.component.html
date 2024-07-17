@@ -1,0 +1,28 @@
+<div class="table-responsive">
+  <div class="mb-3 d-flex justify-content-between align-items-center">
+      <input type="text" class="form-control w-25" placeholder="Recherche" [(ngModel)]="search" (input)="filterOffers()">
+      <button class="btn btn-success btn-add-offer" (click)="gotoAddOffer()">Ajouter offre</button>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4 col-md-6" *ngFor="let offer of offers">
+      <div class="card" *ngIf="offer.id!==undefined">
+        <div class="card-img-container"  (click)="navigateToDetails(offer.id)">
+          <img class="card-img-top" [src]="getImageUrl(offer.image)" [alt]="offer.titre" (error)="setDefaultImage($event)" />
+        </div>
+        <div class="card-body" (click)="navigateToDetails(offer.id)">
+          <h5 class="card-title">{{offer.titre}}</h5>
+          <p class="card-text">{{offer.description | slice:0:100}}</p>
+          <div class="offer-details">
+            <p class="card-text"><small>Date limite: {{offer.dateLimite  | date}}</small></p>
+            <p class="card-text"><small>Nombre de postes: {{offer.nombrePostes}}</small></p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary me-2" (click)="updateOffer(offer.id)">Modifier</button>
+          <button class="btn btn-danger" (click)="deleteOffer(offer.id)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="table-responsive">
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <input type="text" class="form-control w-25" placeholder="Recherche" [(ngModel)]="search" (input)="filterUsers()">
+        <button class="btn btn-success" (click)="gotoAddUser()">Ajouter user</button>
+    </div>
+    <table class="table align-middle text-nowrap" >
+        <thead>
+            <tr>
+                <th class="text-dark font-medium fs-4">nom</th>
+                <th class="text-dark font-medium fs-4">prenom</th>
+                <th class="text-dark font-medium fs-4">email</th>
+                <th class="text-dark font-medium fs-4">role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let user of users'>
+                <td >{{user.nom}}</td>
+                <td >{{user.prenom}}</td>
+                <td >{{user.email}}</td>
+                <td >{{user.role}}</td>
+                <td>
+                    <button class="btn btn-danger me-2" (click)="deleteUser(user.id)">Supprimer</button>
+
+                    <button class="btn btn-primary" (click)="updateUser(user.id)">Modifier</button>
+                </td>
+            </tr>              
+        </tbody>
+    </table>
+</div>

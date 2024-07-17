@@ -1,0 +1,62 @@
+/* Définir les styles généraux pour le corps de la page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+/* Style pour le conteneur du formulaire */
+.offer-form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les étiquettes des champs */
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style pour les champs de saisie */
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="date"],
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Style pour le bouton de soumission */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style pour le bouton de soumission au survol */
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style pour les messages d'erreur */
+.text-danger {
+    color: red;
+}
+
+/* Style pour l'aperçu de l'image */
+.image-preview {
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+}

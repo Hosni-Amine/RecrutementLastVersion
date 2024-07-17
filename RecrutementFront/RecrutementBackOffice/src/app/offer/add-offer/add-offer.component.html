@@ -1,0 +1,91 @@
+<div class="offer-form-container">
+    <form class="offer-form" [formGroup]="offerForm" (ngSubmit)="onSubmit()">
+        <h2>Ajouter Offer</h2>
+        <div class="form-group">
+            <label for="titre">Titre:</label>
+            <input type="text" id="titre" name="titre" formControlName="titre">
+            <div *ngIf="offerForm.get('titre')?.touched && offerForm.get('titre')?.invalid">
+                <small class="text-danger">Titre doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" formControlName="description">
+            <div *ngIf="offerForm.get('description')?.touched && offerForm.get('description')?.invalid">
+                <small class="text-danger">Description doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="qualification">Qualification:</label>
+            <input type="text" id="qualification" name="qualification" formControlName="qualification">
+            <div *ngIf="offerForm.get('qualification')?.touched && offerForm.get('qualification')?.invalid">
+                <small class="text-danger">Qualification doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="avantages">Avantages:</label>
+            <input type="text" id="avantages" name="avantages" formControlName="avantages">
+            <div *ngIf="offerForm.get('avantages')?.touched && offerForm.get('avantages')?.invalid">
+                <small class="text-danger">Avantages doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="localisation">Localisation:</label>
+            <select id="localisation" formControlName="localisation" class="form-control">
+                <option value="Tunisie">Tunisie</option>
+                <option value="France">France</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="niveauExperience">Niveau d'expérience:</label>
+            <input type="text" id="niveauExperience" name="niveauExperience" formControlName="niveauExperience">
+            <div *ngIf="offerForm.get('niveauExperience')?.touched && offerForm.get('niveauExperience')?.invalid">
+                <small class="text-danger">Niveau d'expérience doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="nombrePostes">Nombre de postes:</label>
+            <input type="number" id="nombrePostes" name="nombrePostes" formControlName="nombrePostes">
+            <div *ngIf="offerForm.get('nombrePostes')?.touched && offerForm.get('nombrePostes')?.invalid">
+                <small class="text-danger">Nombre de postes doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exigencesLangue">Exigences en langue:</label>
+            <input type="text" id="exigencesLangue" name="exigencesLangue" formControlName="exigencesLangue">
+            <div *ngIf="offerForm.get('exigencesLangue')?.touched && offerForm.get('exigencesLangue')?.invalid">
+                <small class="text-danger">Exigences en langue doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="typeEmploi">Type d'emploi:</label>
+            <input type="text" id="typeEmploi" name="typeEmploi" formControlName="typeEmploi">
+            <div *ngIf="offerForm.get('typeEmploi')?.touched && offerForm.get('typeEmploi')?.invalid">
+                <small class="text-danger">Type d'emploi doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dateLimite">Date Limite:</label>
+            <input type="date" id="dateLimite" name="dateLimite" formControlName="dateLimite">
+            <div *ngIf="offerForm.get('dateLimite')?.touched && offerForm.get('dateLimite')?.invalid">
+                <small class="text-danger">Date Limite doit être non vide</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="categorie">Categorie:</label>
+            <select id="categorie" formControlName="categorieId" class="form-control">
+                <option *ngFor="let categorie of categories" [value]="categorie.id">{{ categorie.nom }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" id="image" (change)="onFileSelected($event)" class="form-control">
+            <div *ngIf="uploadProgress">
+                <div>Uploading .... {{uploadProgress}}%</div>
+                <progress [value]="uploadProgress" max="100"></progress>
+            </div>
+            <img *ngIf="imagePreview" [src]="imagePreview" class="image-preview">
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter Offer</button>
+    </form>
+</div>

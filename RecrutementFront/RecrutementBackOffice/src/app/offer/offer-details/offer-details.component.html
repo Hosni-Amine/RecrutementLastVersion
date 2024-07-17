@@ -1,0 +1,168 @@
+<div class="offer-details-container">
+    <div class="offer-header">
+        <h2 class="offer-title">{{offer.titre}}</h2>
+        <img class="offer-image" *ngIf="offer.image" [src]="getImageUrl(offer.image)" (error)="setDefaultImage($event)">
+        <br>
+        <h3>Description:</h3>
+        <p class="offer-description">{{offer.description}}</p>
+        <br>
+        <h3>Qualification:</h3>
+        <p class="offer-description">{{offer.qualification}}</p>
+        <br>
+        <h3>Avantages:</h3>
+        <p class="offer-description">{{offer.avantages}}</p>
+        <div class="offer-meta">
+            <div><strong>Localisation:</strong> {{offer.localisation}}</div>
+            <div><strong>Niveau d'expérience:</strong> {{offer.niveauExperience}}</div>
+            <div><strong>Exigences langue:</strong> {{offer.exigencesLangue}}</div>
+            <div><strong>Type d'emploi:</strong> {{offer.typeEmploi}}</div>
+            <div><strong>Date de publication:</strong> {{offer.dateDePublication | date}}</div>
+            <div><strong>Date limite:</strong> {{offer.dateLimite | date}}</div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-middle text-nowrap">
+            <thead>
+                <tr>
+                    <th class="text-dark font-medium fs-4">Candidat</th>
+                    <th class="text-dark font-medium fs-4">CV</th>
+                    <th class="text-dark font-medium fs-4">Diplome</th>
+                    <th class="text-dark font-medium fs-4">Date candidature</th>
+                    <th class="text-dark font-medium fs-4">Etat</th>
+                    <th class="text-dark font-medium fs-4">Job matching</th>
+                    <th class="text-dark font-medium fs-4">Interview</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let candidature of candidatureList; let i=index'>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img [src]="getImageUrl(getUserImageProfile(candidatList[i]?.userId))" alt="user" width="45" class="rounded-circle">
+                            <div class="ms-3">
+                                <h5 class="mb-0 font-medium">{{getUserFullName(candidatList[i]?.userId)}}</h5>
+                                <span class="text-muted">{{getUserEmail(candidatList[i]?.userId)}}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" (click)="downloadFile(candidatList[i]!.cv)">Télécharger CV</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary" (click)="downloadFile(candidatList[i]!.diplome)">Télécharger Diplome</button>
+                    </td>
+                    <td>
+                        <h5 class="mb-0 fw-normal">{{candidature.dateCandidature | date}}</h5>
+                    </td>
+                    <td>
+                        <h5 class="mb-0 fw-normal">{{candidature.etat}}</h5>
+                    </td>
+                    <td>
+                        <button class="btn btn-info" (click)="showJobMatchingModal(candidatList[i]?.userId,candidature.id)">Job Matching</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-info" (click)="openAddInterviewModal(candidature)">Add Interview</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Job Matching Modal -->
+<ng-template #jobMatchingModal let-modal>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobMatchingModalLabel">Job Matching</h5>
+                <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="user-info">
+                    <h4>User Information</h4>
+                    <p><strong>Name:</strong> {{selectedUser?.nom}} {{selectedUser?.prenom}}</p>
+                    <p><strong>Email:</strong> {{selectedUser?.email}}</p>
+                </div>
+                <div class="profile-info">
+                    <h4>Profile Information</h4>
+                    <p><strong>Profile Details:</strong> eeeee</p> <!-- Replace with actual details -->
+                </div>
+                <div class="profile-info">
+                    <h4>Resume Parser</h4>
+                    <p><strong>Degree:</strong> University, Bac, </p> <!-- Replace with actual details -->
+                </div>
+                <div class="job-matching-score">
+                    <h4>Job Matching Score</h4>
+                    <div class="score-circles">
+                        <div *ngFor="let score of jobMatchingScores" class="circle" [ngClass]="getTotalPercentageClass(score.value)">
+                            <div [ngClass]="getCircleClass(score.value)">
+                                <span class="percentage">{{score.value}}%</span>
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
+                            </div>
+                            <p>{{score.label}}</p>
+                        </div>
+                    </div>
+                    <div class="total-percentage">
+                        <div class="circle" [ngClass]="getTotalPercentageClass(totalPercentage)">
+                            <div [ngClass]="getCircleClass(totalPercentage)">
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
+                                <span class="percentage">{{totalPercentage}}%</span>
+                            </div>
+                            <p>Total Percentage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="accept()">Accept</button>
+                <button type="button" class="btn btn-danger" (click)="refuse()">Refuse</button>
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #addInterviewModal let-modal>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addInterviewModalLabel">Add Interview</h5>
+                <button type="button" class="btn-close" (click)="modal.dismiss('Cross click')" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="interviewForm" (ngSubmit)="onSubmitInterview()">
+                    <div class="mb-3">
+                        <label for="dateMeet" class="form-label">Date Meet</label>
+                        <input type="datetime-local" id="dateMeet" formControlName="dateMeet" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lienMeet" class="form-label">Meeting Link</label>
+                        <input type="text" id="lienMeet" formControlName="lienMeet" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentaire" class="form-label">Comment</label>
+                        <input type="text" id="commentaire" formControlName="commentaire" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="recruteurId" class="form-label">Select Recruiter</label>
+                        <select id="recruteurId" formControlName="recruteurId" class="form-control">
+                            <option *ngFor="let rec of recruteur" [value]="rec.id">{{rec.nom}} {{rec.nom}}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add interview</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</ng-template>
